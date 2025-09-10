@@ -1,0 +1,110 @@
+:root {
+  --font-family: 'Poppins', sans-serif;
+  --primary-color: #0c2465;
+  --secondary-color: #4a69bd;
+  --background-color: #f3f7f9;
+  --text-color: #18122b;
+  --link-color: #0071ff;
+  --cover-color: #ddefff;
+  --border-color: black;
+  --icon-border-color: rgb(198, 198, 198);
+  --border-radius: 12px;
+  --icon-border-radius: 4px;
+  --button-color: black;
+  --button-hover-color: rgb(68, 68, 68);
+  --hover-color-chip: #d8d8d831;
+  --devider-color: rgba(150, 150, 150, 0.625);
+  --notification-color: #4a69bd;
+  --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family) !important;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+.poppins {
+  font-family: var(--font-family);
+  animation: name duration timing-function delay iteration-count direction fill-mode;
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(0%);
+    max-height: 0;
+  }
+  to {
+    transform: translateY(0);
+    max-height: 1000px;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+/* GlobalStyles.css */
+::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+  border-radius: 30px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(150, 150, 150, 0);
+  border-radius: 30px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #727d9000;
+  border-radius: 30px;
+  transition: all 0.5s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a2b0d6;
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(0%);
+    max-height: 0;
+  }
+  to {
+    transform: translateY(0);
+    max-height: 1000px;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}

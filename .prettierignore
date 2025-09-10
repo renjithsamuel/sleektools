@@ -1,0 +1,17 @@
+node_modules
+.next
+out
+dist
+build
+*.log
+.DS_Store
+*.tsbuildinfo
+.env*
+!.env.example
+coverage
+.vscode/settings.json
+.idea
+*.min.js
+*.min.css
+public/*.js
+public/*.css

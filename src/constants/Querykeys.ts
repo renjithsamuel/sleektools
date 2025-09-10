@@ -1,0 +1,12 @@
+export enum QueryKeys {
+  // query related
+  QUERY_RAG = 'QUERY_RAG',
+  // collections
+  CREATE_COLLECTIONS = 'CREATE_COLLECTIONS',
+  GET_COLLECTIONS = 'GET_COLLECTIONS',
+
+  // Documents related
+  UPLOAD_DOCUMENT = 'UPLOAD_DOCUMENT',
+  GET_DOCUMENTS = 'GET_DOCUMENTS',
+  DELETE_DOCUMENT = 'DELETE_DOCUMENT',
+}

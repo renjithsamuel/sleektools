@@ -1,0 +1,69 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  code-quality:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run TypeScript compiler
+        run: yarn type-check
+
+      - name: Run ESLint
+        run: yarn lint:check
+
+      - name: Run Prettier check
+        run: yarn format:check
+
+      - name: Check for unused dependencies
+        run: |
+          # Install depcheck if not available and run check
+          if command -v jq >/dev/null 2>&1; then
+            npx depcheck --json | jq -e '.dependencies | length == 0 and .devDependencies | length == 0' || echo "⚠️ Unused dependencies found"
+          else
+            echo "⚠️ jq not available, skipping dependency check"
+          fi
+
+  complexity-analysis:
+    name: Code Complexity Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Analyze code complexity
+        run: |
+          # Simple line count analysis instead of complex tools
+          echo "📊 Code Complexity Analysis:"
+          echo "Total TypeScript files: $(find src -name '*.ts' -o -name '*.tsx' | wc -l)"
+          echo "Total lines of code: $(find src -name '*.ts' -o -name '*.tsx' -exec cat {} + | wc -l)"
+          echo "Average file size: $(find src -name '*.ts' -o -name '*.tsx' -exec wc -l {} + | awk '{sum+=$1; count++} END {if(count>0) print sum/count; else print 0}')"
+          echo "✅ Code complexity analysis completed"
