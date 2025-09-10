@@ -31,7 +31,7 @@
     "axios": "^1.7.9",
     "clsx": "^2.1.1",
     "cookies-next": "^5.1.0",
-    "dayjs": "^1.11.13",
+    "dayjs": "^1.11.18",
     "formik": "^2.4.6",
     "framer-motion": "^12.23.12",
     "monaco-editor": "^0.53.0",
