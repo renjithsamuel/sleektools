@@ -1,0 +1,11 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api
+
+# Host
+Host: https://sleektools.vercel.app
+
+# Sitemaps
+Sitemap: https://sleektools.vercel.app/sitemap.xml

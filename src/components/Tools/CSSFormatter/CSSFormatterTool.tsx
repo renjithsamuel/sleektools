@@ -257,10 +257,10 @@ export const CSSFormatterTool = () => {
         </Typography>
       </Box>
 
-      <Grid container spacing={4}>
+      <Grid container spacing={4} sx={{ minHeight: '600px' }}>
         {/* Input Section */}
         <Grid item xs={12} md={6}>
-          <Paper elevation={3} sx={{ p: 3 }}>
+          <Paper elevation={3} sx={{ p: 3, height: '100%', minHeight: '550px' }}>
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
                 CSS Input
@@ -391,7 +391,7 @@ export const CSSFormatterTool = () => {
 
         {/* Output Section */}
         <Grid item xs={12} md={6}>
-          <Paper elevation={3} sx={{ p: 3 }}>
+          <Paper elevation={3} sx={{ p: 3, height: '100%', minHeight: '550px' }}>
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
                 Formatted CSS
@@ -426,6 +426,7 @@ export const CSSFormatterTool = () => {
                 sx={{
                   textAlign: 'center',
                   py: 8,
+                  px: 3,
                   color: 'text.secondary',
                   border: '2px dashed',
                   borderColor: 'grey.300',
@@ -434,6 +435,10 @@ export const CSSFormatterTool = () => {
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  minHeight: '500px',
+                  height: 'calc(100% - 80px)', // Account for header space
+                  width: '100%',
+                  boxSizing: 'border-box',
                 }}
               >
                 <FaCode size={48} style={{ marginBottom: 16, opacity: 0.3 }} />

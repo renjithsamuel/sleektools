@@ -281,10 +281,10 @@ export const SQLFormatterTool = () => {
         />
       </Box>
 
-      <Grid container spacing={4}>
+      <Grid container spacing={4} sx={{ minHeight: '600px' }}>
         {/* Input Section */}
         <Grid item xs={12} md={6}>
-          <Paper elevation={3} sx={{ p: 3, height: '100%' }}>
+          <Paper elevation={3} sx={{ p: 3, height: '100%', minHeight: '550px' }}>
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
                 SQL Input
@@ -330,7 +330,7 @@ export const SQLFormatterTool = () => {
 
         {/* Output Section */}
         <Grid item xs={12} md={6}>
-          <Paper elevation={3} sx={{ p: 3, height: '100%' }}>
+          <Paper elevation={3} sx={{ p: 3, height: '100%', minHeight: '550px' }}>
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
                 Formatted SQL
@@ -355,11 +355,15 @@ export const SQLFormatterTool = () => {
                 sx={{
                   textAlign: 'center',
                   py: 8,
+                  px: 3,
                   color: 'text.secondary',
                   border: '2px dashed',
                   borderColor: 'grey.300',
                   borderRadius: 2,
-                  height: '400px',
+                  minHeight: '500px',
+                  height: 'calc(100% - 80px)', // Account for header space
+                  width: '100%',
+                  boxSizing: 'border-box',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',

@@ -3,13 +3,79 @@ import { CssBaseline, Box } from '@mui/material';
 import { ThemeProvider } from '../context/ThemeContext';
 import { ThemeWrapper } from '../components/ThemeWrapper/ThemeWrapper';
 import { ToolsNavbar } from '../components/NavBar/ToolsNavbar';
-import type { Metadata } from 'next';
+import { GoogleAnalytics } from '../components/Analytics/GoogleAnalytics';
+import type { Metadata, Viewport } from 'next';
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+};
 
 export const metadata: Metadata = {
-  title: 'SleekTools - Developer Tools Collection',
+  metadataBase: new URL('https://sleektools.vercel.app'),
+  title: {
+    default: 'SleekTools - Professional Developer Tools Collection',
+    template: '%s | SleekTools - Developer Tools',
+  },
   description:
-    'A comprehensive collection of developer tools for formatting, validation, conversion, and generation.',
-  viewport: 'width=device-width, initial-scale=1',
+    'Comprehensive collection of professional developer tools for JSON/XML formatting, validation, base64 conversion, UUID generation, and more. Free online tools for developers.',
+  keywords: [
+    'developer tools',
+    'JSON formatter',
+    'XML formatter',
+    'SQL formatter',
+    'code validator',
+    'base64 converter',
+    'UUID generator',
+    'online tools',
+    'web development',
+    'programming tools',
+    'code formatter',
+    'text utilities',
+    'developer utilities',
+    'sleektools',
+    'free developer tools',
+  ],
+  authors: [{ name: 'SleekTools Team' }],
+  creator: 'SleekTools',
+  publisher: 'SleekTools',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://sleektools.vercel.app',
+    title: 'SleekTools - Professional Developer Tools Collection',
+    description:
+      'Comprehensive collection of professional developer tools for JSON/XML/SQL formatting, validation, base64 conversion, UUID generation, and more. Free online tools for developers.',
+    siteName: 'SleekTools',
+    images: [
+      {
+        url: '/icon-192x192.svg',
+        width: 192,
+        height: 192,
+        alt: 'SleekTools Logo',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'SleekTools - Professional Developer Tools Collection',
+    description:
+      'Comprehensive collection of professional developer tools for JSON/XML/SQL formatting, validation, base64 conversion, UUID generation, and more.',
+    images: ['/icon-192x192.svg'],
+    creator: '@sleektools',
+  },
   icons: {
     icon: [
       {
@@ -31,13 +97,15 @@ export const metadata: Metadata = {
     ],
     shortcut: '/favicon.svg',
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
   manifest: '/site.webmanifest',
+  alternates: {
+    canonical: 'https://sleektools.vercel.app',
+  },
   other: {
     'theme-color': '#1976d2',
+    'apple-mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-status-bar-style': 'default',
+    'format-detection': 'telephone=no',
   },
 };
 
@@ -61,8 +129,46 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebApplication',
+              name: 'SleekTools',
+              description:
+                'Comprehensive collection of professional developer tools for JSON/XML/SQL formatting, validation, base64 conversion, UUID generation, and more. Free online tools for developers.',
+              url: 'https://sleektools.vercel.app',
+              applicationCategory: 'DeveloperApplication',
+              operatingSystem: 'Web Browser',
+              offers: {
+                '@type': 'Offer',
+                price: '0',
+                priceCurrency: 'USD',
+              },
+              creator: {
+                '@type': 'Organization',
+                name: 'SleekTools',
+              },
+              featureList: [
+                'JSON Formatter and Validator',
+                'XML Formatter and Validator',
+                'SQL Formatter',
+                'Base64 Encoder/Decoder',
+                'UUID Generator',
+                'Code Validators',
+                'Text Utilities',
+                'Developer Tools',
+              ],
+              screenshot: 'https://sleektools.vercel.app/icon-192x192.svg',
+            }),
+          }}
+        />
       </head>
       <body style={{ fontFamily: 'Poppins, sans-serif' }} suppressHydrationWarning={true}>
+        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+          <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+        )}
         <ThemeProvider>
           <ThemeWrapper>
             <CssBaseline />

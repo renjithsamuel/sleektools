@@ -622,11 +622,15 @@ export const LoremIpsumGenerator = () => {
                 sx={{
                   textAlign: 'center',
                   py: 8,
+                  px: 3,
                   color: 'text.secondary',
                   border: '2px dashed',
                   borderColor: 'grey.300',
                   borderRadius: 2,
-                  minHeight: '400px',
+                  minHeight: '500px',
+                  height: 'calc(100% - 80px)', // Account for header space
+                  width: '100%',
+                  boxSizing: 'border-box',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
