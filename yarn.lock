@@ -491,11 +491,12 @@
     prop-types "^15.7.2"
     react-is "^16.8.0 || ^17.0.0"
 
-"@mistralai/mistralai@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@mistralai/mistralai/-/mistralai-1.5.0.tgz#c278e5f1909d5882de4c38effec3685a02c8002b"
-  integrity sha512-AIn8pwAwA/fDvEUvmkt+40zH1ZmfaG3Q7oUWl17GUEC1tU7ZPwYz8Cv9P59lyS1SisHdDSu81oknO7f1ywkz8Q==
+"@mistralai/mistralai@^1.10.0":
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/@mistralai/mistralai/-/mistralai-1.10.0.tgz#6c489b5e8429ece5e5d3967c42c8f4559529a16f"
+  integrity sha512-tdIgWs4Le8vpvPiUEWne6tK0qbVc+jMenujnvTqOjogrJUsCSQhus0tHTU1avDDh5//Rq2dFgP9mWRAdIEoBqg==
   dependencies:
+    zod "^3.20.0"
     zod-to-json-schema "^3.24.1"
 
 "@monaco-editor/loader@^1.5.0":
@@ -4613,10 +4614,10 @@ zod-to-json-schema@^3.24.1:
   resolved "https://registry.yarnpkg.com/zod-to-json-schema/-/zod-to-json-schema-3.24.1.tgz#f08c6725091aadabffa820ba8d50c7ab527f227a"
   integrity sha512-3h08nf3Vw3Wl3PK+q3ow/lIil81IT2Oa7YpQyUUDsEWbXveMesdfK1xBd2RhCkynwZndAxixji/7SYJJowr62w==
 
-zod@^3.24.1:
-  version "3.24.1"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-3.24.1.tgz#27445c912738c8ad1e9de1bea0359fa44d9d35ee"
-  integrity sha512-muH7gBL9sI1nciMZV67X5fTKKBLtwpZ5VBp1vsOQzj1MhrBZ4wlVCm3gedKZWLp0Oyel8sIGfeiz54Su+OVT+A==
+zod@^3.20.0, zod@^3.24.1:
+  version "3.25.76"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.25.76.tgz#26841c3f6fd22a6a2760e7ccb719179768471e34"
+  integrity sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==
 
 zwitch@^2.0.0:
   version "2.0.4"
