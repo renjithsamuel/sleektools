@@ -1,0 +1,21 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="8" cy="8" r="8" fill="#1976d2"/>
+  
+  <!-- Main gear -->
+  <g transform="translate(8, 8)">
+    <!-- Gear teeth -->
+    <path d="M-0.5,-4 L0.5,-4 L0.5,-3 L1.5,-3 L1.5,-1.5 L3,-1.5 L3,-0.5 L4,-0.5 L4,0.5 L3,0.5 L3,1.5 L1.5,1.5 L1.5,3 L0.5,3 L0.5,4 L-0.5,4 L-0.5,3 L-1.5,3 L-1.5,1.5 L-3,1.5 L-3,0.5 L-4,0.5 L-4,-0.5 L-3,-0.5 L-3,-1.5 L-1.5,-1.5 L-1.5,-3 L-0.5,-3 Z" fill="#ffffff"/>
+    <!-- Inner circle -->
+    <circle cx="0" cy="0" r="1.5" fill="#1976d2"/>
+    <!-- Center hole -->
+    <circle cx="0" cy="0" r="0.8" fill="#ffffff"/>
+  </g>
+  
+  <!-- Small spanner -->
+  <g transform="translate(4, 4) rotate(-30)">
+    <rect x="-0.3" y="-2" width="0.6" height="4" fill="#ffffff" opacity="0.8"/>
+    <circle cx="0" cy="-1.5" r="0.5" fill="#ffffff" opacity="0.8"/>
+    <circle cx="0" cy="1.5" r="0.5" fill="#ffffff" opacity="0.8"/>
+  </g>
+</svg>

@@ -22,6 +22,7 @@ Please **do not** create a public GitHub issue for security vulnerabilities. Thi
 Send an email to: **security@sleektools.dev** (or your preferred contact method)
 
 Include the following information:
+
 - Description of the vulnerability
 - Steps to reproduce the issue
 - Potential impact
@@ -45,6 +46,7 @@ Include the following information:
 When using SleekTools:
 
 ### For Developers
+
 - Keep dependencies updated
 - Use the latest stable version
 - Follow secure coding practices
@@ -52,6 +54,7 @@ When using SleekTools:
 - Use HTTPS in production
 
 ### For Users
+
 - Use the official hosted version or trusted deployments
 - Don't enter sensitive data into public instances
 - Report suspicious behavior
@@ -76,6 +79,7 @@ We maintain a record of security issues and their resolution:
 ## Contact
 
 For general security questions or concerns:
+
 - Email: security@sleektools.dev
 - GitHub: @yourusername
 - Twitter: @sleektools

@@ -184,6 +184,7 @@ This project maintains high code quality standards:
 3. Environment variables can be set in Vercel dashboard
 
 **For automatic GitHub → Vercel deployment:**
+
 - See [GitHub Workflows Setup Guide](.github/WORKFLOWS_SETUP.md)
 - Configure Vercel secrets in GitHub repository settings
 
