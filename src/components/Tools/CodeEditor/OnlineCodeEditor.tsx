@@ -1,5 +1,5 @@
 'use client';
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import {
   Box,
   Container,
@@ -24,6 +24,7 @@ import {
   IconButton,
   Tooltip,
   Divider,
+  CircularProgress,
 } from '@mui/material';
 import {
   FaPlay,
@@ -80,196 +81,124 @@ const SUPPORTED_LANGUAGES = [
 ];
 
 const DEFAULT_CODE_TEMPLATES: Record<string, string> = {
-  javascript: `// Welcome to the Online Code Editor
-console.log("Hello, World!");
+  javascript: `// Hello, World! in JavaScript
+console.log("Hello, World!");`,
 
-// Try some JavaScript
-function fibonacci(n) {
-    if (n <= 1) return n;
-    return fibonacci(n - 1) + fibonacci(n - 2);
-}
+  typescript: `// Hello, World! in TypeScript
+console.log("Hello, World!");`,
 
-console.log("Fibonacci of 10:", fibonacci(10));
+  python: `# Hello, World! in Python
+print("Hello, World!")`,
 
-// Array operations
-const numbers = [1, 2, 3, 4, 5];
-const doubled = numbers.map(x => x * 2);
-console.log("Doubled numbers:", doubled);`,
+  java: `// Hello, World! in Java
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}`,
 
-  typescript: `// Welcome to TypeScript Code Editor
-console.log("Hello, TypeScript!");
+  cpp: `// Hello, World! in C++
+#include <iostream>
 
-// Type definitions
-interface User {
-    id: number;
-    name: string;
-    email: string;
-}
+int main() {
+    std::cout << "Hello, World!" << std::endl;
+    return 0;
+}`,
 
-// Generic function
-function identity<T>(arg: T): T {
-    return arg;
-}
+  c: `// Hello, World! in C
+#include <stdio.h>
 
-const user: User = {
-    id: 1,
-    name: "John Doe",
-    email: "john@example.com"
-};
+int main() {
+    printf("Hello, World!\\n");
+    return 0;
+}`,
 
-console.log("User:", user);
-console.log("Identity:", identity("Hello TypeScript"));`,
+  csharp: `// Hello, World! in C#
+using System;
 
-  python: `# Welcome to the Online Code Editor
-print("Hello, World!")
+class HelloWorld {
+    static void Main() {
+        Console.WriteLine("Hello, World!");
+    }
+}`,
 
-# Try some Python
-def fibonacci(n):
-    if n <= 1:
-        return n
-    return fibonacci(n - 1) + fibonacci(n - 2)
+  go: `// Hello, World! in Go
+package main
 
-print(f"Fibonacci of 10: {fibonacci(10)}")
+import "fmt"
 
-# List comprehension
-numbers = [1, 2, 3, 4, 5]
-doubled = [x * 2 for x in numbers]
-print(f"Doubled numbers: {doubled}")
+func main() {
+    fmt.Println("Hello, World!")
+}`,
 
-# Dictionary example
-person = {
-    "name": "Alice",
-    "age": 30,
-    "city": "New York"
-}
-print(f"Person: {person}")`,
+  rust: `// Hello, World! in Rust
+fn main() {
+    println!("Hello, World!");
+}`,
+
+  php: `<?php
+// Hello, World! in PHP
+echo "Hello, World!";
+?>`,
+
+  ruby: `# Hello, World! in Ruby
+puts "Hello, World!"`,
+
+  swift: `// Hello, World! in Swift
+print("Hello, World!")`,
+
+  kotlin: `// Hello, World! in Kotlin
+fun main() {
+    println("Hello, World!")
+}`,
 
   html: `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Code Editor</title>
-    <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            text-align: center; 
-            padding: 50px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            margin: 0;
-        }
-        .container { 
-            max-width: 600px; 
-            margin: 0 auto; 
-            background: rgba(255, 255, 255, 0.1);
-            padding: 40px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-        }
-        .highlight { 
-            color: #FFE082; 
-            font-weight: bold; 
-        }
-        button {
-            background: #4CAF50;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin: 10px;
-            transition: all 0.3s ease;
-        }
-        button:hover {
-            background: #45a049;
-            transform: translateY(-2px);
-        }
-    </style>
+    <title>Hello, World!</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to the <span class="highlight">Online Code Editor</span></h1>
-        <p>A powerful, browser-based code editor with syntax highlighting!</p>
-        <button onclick="showMessage()">Try Interactive Demo!</button>
-    </div>
-    
-    <script>
-        function showMessage() {
-            alert('🎉 Hello from the Online Code Editor!');
-        }
-    </script>
+    <h1>Hello, World!</h1>
 </body>
 </html>`,
 
-  css: `/* Welcome to the CSS Code Editor */
-:root {
-    --primary-color: #667eea;
-    --secondary-color: #764ba2;
-    --accent-color: #FFE082;
-}
-
+  css: `/* Hello, World! in CSS */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    color: white;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.container {
-    max-width: 800px;
-    padding: 40px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
+    font-family: Arial, sans-serif;
     text-align: center;
+    margin-top: 50px;
 }
 
-.title {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    background: linear-gradient(45deg, var(--accent-color), #fff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+h1 {
+    color: #333;
 }
 
-.card {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    margin: 20px 0;
-    border-radius: 15px;
-    transition: transform 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
+.hello-world {
+    font-size: 2em;
+    color: #007bff;
 }`,
+
+  sql: `-- Hello, World! in SQL
+SELECT 'Hello, World!' AS message;`,
 
   json: `{
-    "welcomeMessage": "Welcome to the JSON Code Editor!",
-    "description": "JSON (JavaScript Object Notation) is a lightweight data interchange format",
-    "features": [
-        "Human readable",
-        "Language independent", 
-        "Easy to parse and generate"
-    ],
-    "user": {
-        "id": 1,
-        "name": "John Doe",
-        "email": "john.doe@example.com",
-        "isActive": true,
-        "profile": {
-            "age": 30,
-            "country": "USA"
-        }
-    }
+    "message": "Hello, World!",
+    "language": "JSON",
+    "greeting": true
 }`,
+
+  xml: `<?xml version="1.0" encoding="UTF-8"?>
+<greeting>
+    <message>Hello, World!</message>
+    <language>XML</language>
+</greeting>`,
+
+  yaml: `# Hello, World! in YAML
+message: "Hello, World!"
+language: YAML
+greeting: true`,
 };
 
 export const OnlineCodeEditor = () => {
@@ -282,51 +211,116 @@ export const OnlineCodeEditor = () => {
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [loadDialogOpen, setLoadDialogOpen] = useState(false);
   const [snippetName, setSnippetName] = useState('');
+  const [isEditorLoading, setIsEditorLoading] = useState(true);
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: '',
-    severity: 'success' as 'success' | 'error',
+    severity: 'success' as 'success' | 'error' | 'warning',
   });
   const editorRef = useRef<any>(null);
   const { isDarkMode } = useTheme();
 
+  const handleEditorWillMount = (monaco: any) => {
+    try {
+      // Configure Monaco environment for Next.js
+      if (typeof window !== 'undefined') {
+        // Disable web workers to avoid loading issues
+        (window as any).MonacoEnvironment = {
+          getWorkerUrl: () => '',
+          getWorker: () => {
+            // Return a dummy worker to prevent loading issues
+            return {
+              postMessage: () => {},
+              terminate: () => {},
+              addEventListener: () => {},
+              removeEventListener: () => {},
+            };
+          }
+        };
+      }
+
+      // Configure TypeScript/JavaScript defaults with minimal setup
+      if (monaco.languages?.typescript?.javascriptDefaults) {
+        monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
+          target: monaco.languages.typescript.ScriptTarget.ES2020,
+          allowNonTsExtensions: true,
+          noEmit: true,
+          allowJs: true,
+        });
+
+        monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
+          noSemanticValidation: true, // Disable to avoid worker issues
+          noSyntaxValidation: false,
+        });
+      }
+
+      if (monaco.languages?.typescript?.typescriptDefaults) {
+        monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
+          target: monaco.languages.typescript.ScriptTarget.ES2020,
+          allowNonTsExtensions: true,
+          noEmit: true,
+        });
+
+        monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
+          noSemanticValidation: true, // Disable to avoid worker issues
+          noSyntaxValidation: false,
+        });
+      }
+    } catch (error) {
+      console.warn('Monaco configuration warning:', error);
+    }
+  };
+
   const handleEditorDidMount = (editor: any, monaco: any) => {
-    editorRef.current = editor;
+    try {
+      editorRef.current = editor;
 
-    // Configure editor options
-    editor.updateOptions({
-      fontSize: 14,
-      fontFamily: 'JetBrains Mono, Fira Code, Monaco, Consolas, monospace',
-      wordWrap: 'on',
-      minimap: { enabled: false },
-      scrollBeyondLastLine: false,
-      automaticLayout: true,
-      tabSize: 4,
-      insertSpaces: true,
-      detectIndentation: false,
-      renderWhitespace: 'selection',
-      bracketPairColorization: { enabled: true },
-      guides: {
-        indentation: true,
-        bracketPairs: true,
-      },
-      suggestOnTriggerCharacters: true,
-      quickSuggestions: true,
-      parameterHints: { enabled: true },
-      formatOnPaste: true,
-      formatOnType: true,
-      lineHeight: 22,
-      letterSpacing: 0.5,
-    });
+      // Configure editor options
+      editor.updateOptions({
+        fontSize: 14,
+        fontFamily: 'JetBrains Mono, Fira Code, Monaco, Consolas, monospace',
+        wordWrap: 'on',
+        minimap: { enabled: false },
+        scrollBeyondLastLine: false,
+        automaticLayout: true,
+        tabSize: 4,
+        insertSpaces: true,
+        detectIndentation: false,
+        renderWhitespace: 'selection',
+        bracketPairColorization: { enabled: true },
+        guides: {
+          indentation: true,
+          bracketPairs: true,
+        },
+        suggestOnTriggerCharacters: true,
+        quickSuggestions: true,
+        parameterHints: { enabled: true },
+        formatOnPaste: true,
+        formatOnType: true,
+        lineHeight: 22,
+        letterSpacing: 0.5,
+      });
 
-    // Add keyboard shortcuts
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
-      handleSaveSnippet();
-    });
+      // Add keyboard shortcuts
+      editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
+        handleSaveSnippet();
+      });
 
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
-      handleRunCode();
-    });
+      editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
+        handleRunCode();
+      });
+
+      // Set loading state to false when editor is ready
+      setIsEditorLoading(false);
+    } catch (error) {
+      console.error('Monaco editor mount error:', error);
+      setIsEditorLoading(false);
+      setSnackbar({ 
+        open: true, 
+        message: 'Editor failed to initialize. Please refresh the page.', 
+        severity: 'error' 
+      });
+    }
   };
 
   const handleLanguageChange = (newLanguage: string) => {
@@ -336,7 +330,33 @@ export const OnlineCodeEditor = () => {
     setCode(template);
     setOutput('');
     setExecutionResult(null);
+    // Don't reset loading state for language changes - Monaco is already initialized
+    // setIsEditorLoading(true);
   };
+
+  // Handle Monaco loading timeout - only on initial load
+  useEffect(() => {
+    // Only set timeout for initial load, not language changes
+    if (isEditorLoading && !editorRef.current) {
+      const timeout = setTimeout(() => {
+        if (isEditorLoading && !editorRef.current) {
+          console.warn('Monaco Editor is taking longer than expected to load');
+          setIsEditorLoading(false); // Stop loading state
+          setUseFallback(true); // Enable fallback mode
+          setSnackbar({
+            open: true,
+            message: 'Monaco Editor failed to load. Using basic text editor.',
+            severity: 'warning'
+          });
+        }
+      }, 5000); // 5 second timeout
+
+      return () => clearTimeout(timeout);
+    }
+  }, [isEditorLoading]);
+
+  // Add a fallback for when Monaco completely fails
+  const [useFallback, setUseFallback] = useState(false);
 
   const simulateCodeExecution = async (
     code: string,
@@ -345,57 +365,37 @@ export const OnlineCodeEditor = () => {
     const startTime = Date.now();
 
     // Simulate execution delay
-    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
+    await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 1200));
 
     const executionTime = Date.now() - startTime;
 
-    // Simulate different outputs based on language and code content
-    if (language === 'javascript') {
-      if (code.includes('console.log("Hello, World!")')) {
-        return {
-          output: 'Hello, World!\nFibonacci of 10: 55\nDoubled numbers: [2, 4, 6, 8, 10]\n',
-          executionTime,
-        };
-      }
-      return {
-        output: 'JavaScript code executed successfully!\n',
-        executionTime,
-      };
-    } else if (language === 'python') {
-      if (code.includes('print("Hello, World!")')) {
-        return {
-          output:
-            "Hello, World!\nFibonacci of 10: 55\nDoubled numbers: [2, 4, 6, 8, 10]\nPerson: {'name': 'Alice', 'age': 30, 'city': 'New York'}\n",
-          executionTime,
-        };
-      }
-      return {
-        output: 'Python code executed successfully!\n',
-        executionTime,
-      };
-    } else if (language === 'html') {
-      return {
-        output:
-          'HTML preview would be rendered here in a real implementation.\nPage structure looks good!\n',
-        executionTime,
-      };
-    } else if (language === 'java') {
-      if (code.includes('System.out.println("Hello, World!")')) {
-        return {
-          output: 'Hello, World!\nFibonacci of 10: 55\nDoubled numbers: [2, 4, 6, 8, 10]\n',
-          executionTime,
-        };
-      }
-      return {
-        output: 'Java code compiled and executed successfully!\n',
-        executionTime,
-      };
-    } else {
-      return {
-        output: `${language.toUpperCase()} code executed successfully!\nOutput would appear here in a real implementation.\n`,
-        executionTime,
-      };
-    }
+    // Define expected outputs for "Hello, World!" programs
+    const helloWorldOutputs: Record<string, string> = {
+      javascript: 'Hello, World!',
+      typescript: 'Hello, World!',
+      python: 'Hello, World!',
+      java: 'Hello, World!',
+      cpp: 'Hello, World!',
+      c: 'Hello, World!',
+      csharp: 'Hello, World!',
+      go: 'Hello, World!',
+      rust: 'Hello, World!',
+      php: 'Hello, World!',
+      ruby: 'Hello, World!',
+      swift: 'Hello, World!',
+      kotlin: 'Hello, World!',
+      sql: 'Hello, World!',
+      html: 'HTML rendered successfully! Page displays: Hello, World!',
+      css: 'CSS styles applied successfully!',
+      json: 'JSON parsed successfully! Message: Hello, World!',
+      xml: 'XML parsed successfully! Message: Hello, World!',
+      yaml: 'YAML parsed successfully! Message: Hello, World!',
+    };
+
+    return {
+      output: helloWorldOutputs[language] || `${language.toUpperCase()} code executed successfully!`,
+      executionTime,
+    };
   };
 
   const handleRunCode = async () => {
@@ -630,39 +630,109 @@ export const OnlineCodeEditor = () => {
                 </Typography>
                 <Chip label={`Lines: ${code.split('\n').length}`} size="small" variant="outlined" />
               </Box>
-              <Box sx={{ flex: 1 }}>
-                <Editor
-                  height="100%"
-                  language={language}
-                  value={code}
-                  onChange={value => setCode(value || '')}
-                  onMount={handleEditorDidMount}
-                  theme={isDarkMode ? 'vs-dark' : 'vs-light'}
-                  options={{
-                    fontSize: 14,
-                    fontFamily: 'JetBrains Mono, Fira Code, Monaco, Consolas, monospace',
-                    wordWrap: 'on',
-                    minimap: { enabled: false },
-                    scrollBeyondLastLine: false,
-                    automaticLayout: true,
-                    tabSize: 4,
-                    insertSpaces: true,
-                    detectIndentation: false,
-                    renderWhitespace: 'selection',
-                    bracketPairColorization: { enabled: true },
-                    guides: {
-                      bracketPairs: true,
-                      indentation: true,
-                    },
-                    suggestOnTriggerCharacters: true,
-                    quickSuggestions: true,
-                    parameterHints: { enabled: true },
-                    formatOnPaste: true,
-                    formatOnType: true,
-                    lineHeight: 22,
-                    letterSpacing: 0.5,
-                  }}
-                />
+              <Box sx={{ flex: 1, position: 'relative' }}>
+                {isEditorLoading && (
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: isDarkMode ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)',
+                      zIndex: 1000,
+                    }}
+                  >
+                    <Box textAlign="center">
+                      <CircularProgress size={40} />
+                      <Typography variant="body2" sx={{ mt: 2 }}>
+                        Loading Monaco Editor...
+                      </Typography>
+                    </Box>
+                  </Box>
+                )}
+                {useFallback ? (
+                  // Fallback textarea when Monaco fails
+                  <TextField
+                    fullWidth
+                    multiline
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                    placeholder={`Enter your ${language} code here...`}
+                    variant="outlined"
+                    InputProps={{
+                      style: {
+                        fontFamily: 'JetBrains Mono, Fira Code, Monaco, Consolas, monospace',
+                        fontSize: '14px',
+                        height: '100%',
+                      },
+                    }}
+                    sx={{
+                      height: '100%',
+                      '& .MuiOutlinedInput-root': {
+                        height: '100%',
+                        alignItems: 'flex-start',
+                      },
+                      '& .MuiOutlinedInput-input': {
+                        height: '100% !important',
+                        overflow: 'auto !important',
+                      },
+                    }}
+                  />
+                ) : (
+                  <Editor
+                    height="100%"
+                    language={language}
+                    value={code}
+                    onChange={value => setCode(value || '')}
+                    beforeMount={handleEditorWillMount}
+                    onMount={handleEditorDidMount}
+                    theme={isDarkMode ? 'vs-dark' : 'vs-light'}
+                    loading={
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          height: '100%',
+                          flexDirection: 'column',
+                        }}
+                      >
+                        <CircularProgress size={40} />
+                        <Typography variant="body2" sx={{ mt: 2 }}>
+                          Loading Monaco Editor...
+                        </Typography>
+                      </Box>
+                    }
+                    options={{
+                      fontSize: 14,
+                      fontFamily: 'JetBrains Mono, Fira Code, Monaco, Consolas, monospace',
+                      wordWrap: 'on',
+                      minimap: { enabled: false },
+                      scrollBeyondLastLine: false,
+                      automaticLayout: true,
+                      tabSize: 4,
+                      insertSpaces: true,
+                      detectIndentation: false,
+                      renderWhitespace: 'selection',
+                      bracketPairColorization: { enabled: true },
+                      guides: {
+                        bracketPairs: true,
+                        indentation: true,
+                      },
+                      suggestOnTriggerCharacters: true,
+                      quickSuggestions: true,
+                      parameterHints: { enabled: true },
+                      formatOnPaste: true,
+                      formatOnType: true,
+                      lineHeight: 22,
+                      letterSpacing: 0.5,
+                    }}
+                  />
+                )}
               </Box>
             </Box>
           </Panel>

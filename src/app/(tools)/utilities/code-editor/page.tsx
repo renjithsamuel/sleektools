@@ -1,4 +1,4 @@
-import { OnlineCodeEditor } from '../../../../components/Tools/CodeEditor/OnlineCodeEditorFixed';
+import { OnlineCodeEditor } from '../../../../components/Tools/CodeEditor/OnlineCodeEditor';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
